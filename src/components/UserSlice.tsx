@@ -82,8 +82,8 @@ const userSlice = createSlice({
             })
             .addCase(fetchUsers.fulfilled, (state, action) => {
                 state.loading = false;
-                state.users = action.payload.data; // Set users from the API response
-                state.totalPages = action.payload.total_pages; // Set total pages from the response
+                state.users = action.payload.data; 
+                state.totalPages = action.payload.total_pages; 
             })
             .addCase(fetchUsers.rejected, (state, action) => {
                 state.loading = false;
@@ -92,12 +92,12 @@ const userSlice = createSlice({
 
             // Create user
             .addCase(createUser.fulfilled, (state, action) => {
-                state.users.push(action.payload); // Add the new user to the list
+                state.users.push(action.payload); 
             })
 
             // Delete user
             .addCase(deleteUser.fulfilled, (state, action) => {
-              state.users = state.users.filter(user => user.id !== action.payload); // Remove the deleted user from the list
+              state.users = state.users.filter(user => user.id !== action.payload); 
           })
             // In your UserSlice.ts
             .addCase(updateUser.fulfilled, (state, action) => {
@@ -105,8 +105,8 @@ const userSlice = createSlice({
               if (index !== -1) {
                   state.users[index] = {
                       ...state.users[index],
-                      ...action.payload, // Ensure to merge the updated fields
-                      updatedAt: new Date().toISOString() // Set updatedAt to current date/time
+                      ...action.payload, 
+                      updatedAt: new Date().toISOString() 
                   };
               }
             });  
