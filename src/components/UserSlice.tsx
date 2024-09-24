@@ -31,7 +31,7 @@ export const fetchUsers = createAsyncThunk<UserResponse, number>(
     'users/fetchUsers',
     async (page: number) => {
         const response = await axios.get(`https://reqres.in/api/users?page=${page}`);
-        return response.data; // Return the entire response object
+        return response.data;
     }
 );
 
