@@ -65,8 +65,8 @@ const UserManagement: React.FC = () => {
             );
             setUsers(updatedUsers);
             setSelectedUser(null);
-            setIsModalOpen(false); // Close modal after update
-            setUserData({ first_name: '', job: ''}); // Reset form data
+            setIsModalOpen(false); 
+            setUserData({ first_name: '', job: ''}); 
             alert("Success")
         }
     };
