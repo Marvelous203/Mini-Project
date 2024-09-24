@@ -54,7 +54,7 @@ const UserManagement: React.FC = () => {
     const closeModal = () => {
         setIsModalOpen(false);
         setSelectedUser(null);
-        setUserData({ first_name: '', job: '' }); // Reset form data
+        setUserData({ first_name: '', job: '' }); 
     };
 
     // Submit update for the selected user
