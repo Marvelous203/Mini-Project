@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios, { AxiosError } from 'axios';
-import { User } from '../types'; // Ensure User type is defined correctly
+import { User } from '../types'; 
 import '../styles/UserCreate.scss'
 
 interface CreateUserProps {

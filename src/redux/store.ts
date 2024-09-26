@@ -1,6 +1,6 @@
 // src/redux/store.ts
 import { configureStore } from '@reduxjs/toolkit';
-import userReducer from '../components/UserSlice'; // Ensure this path is correct
+import userReducer from '../components/UserSlice';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
 const store = configureStore({
