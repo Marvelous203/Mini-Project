@@ -74,7 +74,7 @@ const UserManagement: React.FC = () => {
     return (
         <div>
             {/* Add User Button */}
-            <button onClick={handleAddUserClick}>Add User</button>
+            <button className='btn-add' onClick={handleAddUserClick}>Add User</button>
 
             {/* Modal */}
             {isModalOpen && (

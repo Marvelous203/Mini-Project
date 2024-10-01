@@ -1,11 +1,13 @@
 .userlist{
     font-size: 30px;
-    font-family: 'Arial', sans-serif;
-    font-weight: normal;
+    font-family: 'Arial Narrow Bold', sans-serif;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
 }
 /* UserManager.scss */
 .button-gap {
-    margin-right: 10px; /* Adjust this value as needed */
+    margin-right: 10px; 
     margin-left: 10px;
 }
 .btn-close{
@@ -14,4 +16,7 @@
 }
 .btn-delete{
     background-color: red;
+}
+.btn-add{
+    background-color: rgb(17, 190, 17);
 }

@@ -3,6 +3,7 @@ import axios, { AxiosError } from 'axios';
 import { User } from '../types'; 
 import '../styles/UserCreate.scss'
 
+
 interface CreateUserProps {
     onUserCreated: (newUser: User) => void; // Callback
     closeModal: () => void; // Add closeModal prop
