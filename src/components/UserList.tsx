@@ -236,6 +236,9 @@ const UserList: React.FC = () => {
           </div>
 
           {/* Pagination Controls */}
+          <div className="page">
+                Current Page: {currentPage} | Total Pages: {totalPages}
+            </div>
           {(!searchTerm || filteredUsers.length) && (
             <div className="btn-pagination">
               <button
@@ -245,9 +248,6 @@ const UserList: React.FC = () => {
               >
                 Prev
               </button>
-              <div className="page">
-                Current Page: {currentPage} | Total Pages: {totalPages}
-            </div>
               <button
                 className="next"
                 onClick={handleNext}
