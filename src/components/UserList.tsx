@@ -50,8 +50,10 @@ const UserList: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchUsersForCurrentPage(currentPage); // Always fetch users for the current page
-  }, [currentPage]); // Depend on currentPage only
+    if (!searchTerm) {
+      fetchUsersForCurrentPage(currentPage); // Fetch users only if there's no search term
+    }
+  }, [currentPage, searchTerm]);
 
   const fetchUserDetails = async (id: number) => {
     try {
@@ -100,7 +102,13 @@ const UserList: React.FC = () => {
   };
 
   // Pagination: show 6 users per page
-  const displayUsers = searchTerm ? filteredUsers : users;
+  const usersPerPage = 6 ;
+  const startIndex = (currentPage - 1) * usersPerPage;
+  const endIndex = startIndex + usersPerPage;
+//   const displayUsers = searchTerm ? filteredUsers : users;
+const paginatedUsers = searchTerm
+  ? filteredUsers.slice(startIndex, endIndex) // Use filtered users if search is active
+  : users; // Use the API fetched users otherwise
   
   
 
@@ -156,7 +164,7 @@ const handlePrev = () => {
         </div>
       )}
       <div>
-        {displayUsers.map((user: User) => (
+        {paginatedUsers.map((user: User) => (
           <div className="card" key={user.id}>
             <div className="card-b">
               <img
