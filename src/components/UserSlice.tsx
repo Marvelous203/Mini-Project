@@ -16,6 +16,9 @@ interface UserState {
     error: string | null;
     currentPage: number;
     totalPages: number;
+    creatingUser: boolean;  // New loading state for creating user
+    updatingUser: boolean;  // New loading state for updating user
+    deletingUser: boolean;  // New loading state for deleting user
 }
 
 const initialState: UserState = {
@@ -23,7 +26,10 @@ const initialState: UserState = {
     loading: false,
     error: null,
     currentPage: 1,
-    totalPages: 0,
+    totalPages: 1,
+    creatingUser: false,
+    updatingUser: false,
+    deletingUser: false,
 };
 
 // Fetch users
@@ -44,23 +50,23 @@ export const createUser = createAsyncThunk<User, { name: string; job: string }>(
     }
 );
 
-// Fix the delete user API call in `deleteUser`:
+// Delete user
 export const deleteUser = createAsyncThunk<number, number>(
-  'users/deleteUser',
-  async (id: number) => {
-      await axios.delete(`https://reqres.in/api/users/${id}`);
-      return id; // Return the deleted user's id
-  }
-);
-// Update user
-export const updateUser = createAsyncThunk<User, { id: number; userData: Partial<User> }>(
-  'users/updateUser',
-  async ({ id, userData }) => {
-      const response = await axios.put(`https://reqres.in/api/users/${id}`, userData);
-      return response.data; // Return the updated user
-  }
+    'users/deleteUser',
+    async (id: number) => {
+        await axios.delete(`https://reqres.in/api/users/${id}`);
+        return id; // Return the deleted user's id
+    }
 );
 
+// Update user
+export const updateUser = createAsyncThunk<User, { id: number; userData: Partial<User> }>(
+    'users/updateUser',
+    async ({ id, userData }) => {
+        const response = await axios.put(`https://reqres.in/api/users/${id}`, userData);
+        return response.data; // Return the updated user
+    }
+);
 
 const userSlice = createSlice({
     name: 'users',
@@ -91,25 +97,53 @@ const userSlice = createSlice({
             })
 
             // Create user
+            .addCase(createUser.pending, (state) => {
+                state.creatingUser = true;
+                state.error = null;
+            })
             .addCase(createUser.fulfilled, (state, action) => {
+                state.creatingUser = false;
                 state.users.push(action.payload); 
+            })
+            .addCase(createUser.rejected, (state, action) => {
+                state.creatingUser = false;
+                state.error = action.error.message || 'Failed to create user';
             })
 
             // Delete user
+            .addCase(deleteUser.pending, (state) => {
+                state.deletingUser = true;
+                state.error = null;
+            })
             .addCase(deleteUser.fulfilled, (state, action) => {
-              state.users = state.users.filter(user => user.id !== action.payload); 
-          })
-            // In your UserSlice.ts
+                state.deletingUser = false;
+                state.users = state.users.filter(user => user.id !== action.payload); 
+            })
+            .addCase(deleteUser.rejected, (state, action) => {
+                state.deletingUser = false;
+                state.error = action.error.message || 'Failed to delete user';
+            })
+
+            // Update user
+            .addCase(updateUser.pending, (state) => {
+                state.updatingUser = true;
+                state.error = null;
+            })
             .addCase(updateUser.fulfilled, (state, action) => {
-              const index = state.users.findIndex(user => user.id === action.payload.id);
-              if (index !== -1) {
-                  state.users[index] = {
-                      ...state.users[index],
-                      ...action.payload, 
-                      updatedAt: new Date().toISOString() 
-                  };
-              }
-            });  
+                state.updatingUser = false;
+                const index = state.users.findIndex(user => user.id === action.payload.id);
+                if (index !== -1) {
+                    state.users[index] = {
+                        ...state.users[index],
+                        ...action.payload, 
+                        updatedAt: new Date().toISOString() 
+                    };
+                }
+            })
+            .addCase(updateUser.rejected, (state, action) => {
+                state.updatingUser = false;
+                state.error = action.error.message || 'Failed to update user';
+            });
     },
 });
 
